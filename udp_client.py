@@ -8,14 +8,14 @@ ADDR = (HOST, PORT)
 sockCli = socket(AF_INET, SOCK_DGRAM)
  
 while True:
-        data = raw_input(">")
+        data = input(">")
         if not data:
                 break
-        sockCli.sendto(data, ADDR)
+        sockCli.sendto(data.encode('utf-8'), ADDR)
         data, addr = sockCli.recvfrom(BUFSIZE)
         if not data:
                 break
-        print data
+        print (data)
  
  
 
