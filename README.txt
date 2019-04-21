@@ -44,3 +44,34 @@ udp_sn&cn：目前完成用户名和密码的验证，传输文件部分还有问题
 2) 比较两种协议在代码层面的区别。
 1.8 互动讨论主题
 1) TCP协议和 HTTP协议的区别和联系
+
+
+udp_sn部分的修改：
+原来当客户端给服务器发送file1.docx的请求时，发送部分（elif (data.decode('utf-8') == f1Name):之后以及f2name之前的所有内容）改为：
+				        count=0
+                                                                        f=open('file1.docx','rb')
+                                                                        while True:
+                                                                            if count == 0:
+                                                                                print ("Are You Ready?")
+                                                                            data = f.read(BUFSIZE)
+                                                                            if str(data)!="b''":
+                                                                                sockSrv.sendto(data,addr)
+                                                                            else:
+                                                                                sockSrv.sendto('end'.encode('utf-8'),addr) #此处文件结束
+                                                                                break
+
+                                                                            #data,addr = sockSrv.recvfrom(BUFSIZE)
+                                                                            count+=1
+                                                                            print('Sended Successfully!')
+定义了count变量，用来控制读取发送文件的次数；文件过大，每次只读出固定大小；（意思就是手动分包）
+即BUFSIZE字节大小；由于python传输文件最后没有转义字符，所以空的二进制内容"b''"就是发完了。
+服务器就会给客户端发送end。
+
+udp_cn部分的修改：
+if (data == f1Name):之后保留了第一行的发送语句，因为这时候键盘输入了文件名，需要告诉服务器，客户端需要哪个文件；
+同样也定义了count,用来计算接收的次数；
+打开一个新的docx文件；
+如果count=0;
+说明还没开始传文件，就告诉服务器，客户端准备好了
+然后从缓存区读取文件；
+如果读到了服务器发来的end,就说明传输完成了，就写入新建的文件；

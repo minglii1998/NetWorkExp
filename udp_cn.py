@@ -22,34 +22,22 @@ while True:
 		if (data == wantStop):
 			break
 		if (data == f1Name):
-			sockCli.sendto(data.encode('utf-8'),addr)
-			time.sleep(0.1)
-			head_struct = sockCli.recv(4)
-			print ()
-			if head_struct:
-				print('Waiting for file1!')
-				head_len = struct.unpack('i', head_struct)[0]
-				data, addr = sockCli.recvfrom(BUFSIZE)
-				head_dir = json.loads(data.decode('utf-8'))
-				data = "Transmit mode!"
-				filesize_b = head_dir['filesize_bytes']
-				file_name = head_dir['file_name']
-				#print("test")
-				#print(filesize_b)
-				#print(file_name)
-				recv_len = 0
-				recv_mesg = b''
-				f = open(file_name, 'wb')
-				while recv_len < filesize_b:
-					if filesize_b - recv_len > BUFSIZE:
-						recv_mesg, addr = sockCli.recvfrom(BUFSIZE)
-						f.write(recv_mesg)
-						recv_len += len(recv_mesg)
-					else:
-						recv_mesg,addr = sockCli.recvfrom(filesize_b - recv_len)
-						recv_len += len(recv_mesg)
-						f.write(recv_mesg)
-						print("File1 transmitted!")
+                    sockCli.sendto(data.encode('utf-8'),addr)
+                    count=0
+                    f=open('newfile1.docx','wb')
+                    while True:
+                        if count == 0:
+                            data='Yes,I\'m Ready'
+                            #sockCli.sendto(data.encode('utf-8'),addr)
+                        data,addr = sockCli.recvfrom(BUFSIZE)
+                        if str(data)!="b'end'":
+                            f.write(data)
+                        else:
+                            break
+                        count+=1
+                        #client.sendto('ok'.encode('utf-8'),addr)
+                        #print("File1 transmitted!")
+                    f.close()
 		if (data == f2Name):
 			sockCli.sendto(data.encode('utf-8'),addr)
 			time.sleep(0.1)
