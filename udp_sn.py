@@ -47,8 +47,6 @@ while True:
 									count=0
 									f=open(fname,'rb')
 									while True:
-										if count == 0:
-											print ("Are You Ready?")
 										data = f.read(BUFSIZE)
 										if str(data)!="b''":
 											sockSrv.sendto(data,addr)
@@ -56,23 +54,6 @@ while True:
 											sockSrv.sendto('end'.encode('utf-8'),addr) #此处文件结束
 											break
 										count+=1
-										print('Sended Successfully!')
-								elif (data.decode('utf-8') == f2Name):
-									filemsg = f2Name
-									filesize_bytes = os.path.getsize(filemsg)
-									file_name = 'new' + f2Name
-									dric = {
-										'file_name': file_name,
-										'filesize_bytes': filesize_bytes,
-									}
-									head_info = json.dumps(dric)
-									head_info_len = struct.pack('i', len(head_info))
-									sockSrv.sendto(head_info_len,addr)
-									sockSrv.sendto(head_info.encode('utf-8'),addr)
-									with open (filemsg,'rb') as f:
-										data = f.read()
-										sockSrv.sendall(data,addr)
-									print('Sended Successfully!')
 								else:
 									print(data)
 									sockSrv.sendto(rece.encode('utf-8'),addr)

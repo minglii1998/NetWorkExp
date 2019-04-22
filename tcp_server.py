@@ -6,11 +6,11 @@ import os
 import sys
  
 #HOST=input("请输入Client IP地址：")
-HOST = ""
+HOST = ''
 PORT = 6000
 BUFSIZE = 1024
 ADDR = (HOST, PORT)
- 
+
 sockSrv = socket(AF_INET, SOCK_STREAM)
 sockSrv.bind(ADDR)
 sockSrv.listen(5)
@@ -53,7 +53,7 @@ while True:
 									}
 									head_info = json.dumps(dric)
 									head_info_len = struct.pack('i', len(head_info))
-									sockCli.send(head_info_len.encode('utf-8'))
+									sockCli.send(head_info_len)
 									sockCli.send(head_info.encode('utf-8'))
 									with open (filemsg,'rb') as f:
 										data = f.read()
