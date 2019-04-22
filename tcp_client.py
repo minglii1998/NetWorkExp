@@ -26,26 +26,26 @@ while True:
 			break
 		#sockCli.send(data.encode('utf-8'))
 		#data = sockCli.recv(BUFSIZE)
-		if (data == 'file1.docx' or data == 'file2.docx'):
+		if (data == 'file1.docx' or data == 'file2.docx' or data == 'big.zip'):
 			sockCli.send(data.encode('utf-8'))
 			time.sleep(0.1)
 			head_struct = sockCli.recv(4)
 			print ()
 			if head_struct:
-				print('Waiting for file1!')
+				print('Waiting for file!')
 				head_len = struct.unpack('i', head_struct)[0]
 				data = sockCli.recv(head_len)
-				head_dir = json.loads(data.decode('utf-8'))
-				data = "Transmit mode!"
+				head_dir = json.loads(data)
 				filesize_b = head_dir['filesize_bytes']
 				file_name = head_dir['file_name']
+				data = "Transmit mode!"
 				recv_len = 0
 				recv_mesg = b''
 				old = time.time()
 				f = open(file_name, 'wb')
 				while recv_len < filesize_b:
-                                    percent = recv_len / filesize_b
-                                    process_bar(percent)
+					percent = recv_len / filesize_b
+					process_bar(percent)
 					if filesize_b - recv_len > BUFSIZE:
 						recv_mesg = sockCli.recv(BUFSIZE)
 						f.write(recv_mesg)
@@ -56,8 +56,8 @@ while True:
 						f.write(recv_mesg)
 						print("File transmitted!")
 						now = time.time()
-                                                stamp = int(now-old)
-                                                print('总用时%ds' % sramp)
+						stamp = int(now-old)
+						print('总用时%ds' % stamp)
 						f.close()
 		if (data != "Transmit mode!"):
 			sockCli.send(data.encode('utf-8'))

@@ -33,7 +33,7 @@ while True:
 		#sockCli.send(needUname.encode('utf-8'))
 		while True:
 				data = sockCli.recv(BUFSIZE)
-				if ((data.decode('utf-8') == user1 )or(data.decode('utf-8') == user2)):
+				if ((data.decode('utf-8') == user1 )or(data.decode('utf-8') == user2)or(data.decode('utf-8') == 'big.zip')):
 					sockCli.send(needPw.encode('utf-8'))
 					while True:
 						data = sockCli.recv(BUFSIZE)
@@ -53,7 +53,7 @@ while True:
 									}
 									head_info = json.dumps(dric)
 									head_info_len = struct.pack('i', len(head_info))
-									sockCli.send(head_info_len)
+									sockCli.send(head_info_len.encode('utf-8'))
 									sockCli.send(head_info.encode('utf-8'))
 									with open (filemsg,'rb') as f:
 										data = f.read()
