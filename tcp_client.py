@@ -5,7 +5,8 @@ import os
 import sys
 import time
  
-HOST = "localhost"
+HOST=input("请输入Server IP地址：")
+#HOST = "localhost"
 PORT = 6000
 BUFSIZE = 1024
 ADDR = (HOST, PORT)
@@ -24,7 +25,7 @@ while True:
 			break
 		#sockCli.send(data.encode('utf-8'))
 		#data = sockCli.recv(BUFSIZE)
-		if (data == f1Name):
+		if (data == 'file1.docx' or data == 'file2.docx'):
 			sockCli.send(data.encode('utf-8'))
 			time.sleep(0.1)
 			head_struct = sockCli.recv(4)
@@ -49,33 +50,8 @@ while True:
 						recv_mesg = sockCli.recv(filesize_b - recv_len)
 						recv_len += len(recv_mesg)
 						f.write(recv_mesg)
-						print("File1 transmitted!")
-		if (data == f2Name):
-			sockCli.send(data.encode('utf-8'))
-			time.sleep(0.1)
-			head_struct = sockCli.recv(4)
-			print ()
-			if head_struct:
-				print('Waiting for file2!')
-				head_len = struct.unpack('i', head_struct)[0]
-				data = sockCli.recv(head_len)
-				head_dir = json.loads(data.decode('utf-8'))
-				data = "Transmit mode!"
-				filesize_b = head_dir['filesize_bytes']
-				file_name = head_dir['file_name']
-				recv_len = 0
-				recv_mesg = b''
-				f = open(file_name, 'wb')
-				while recv_len < filesize_b:
-					if filesize_b - recv_len > BUFSIZE:
-						recv_mesg = sockCli.recv(BUFSIZE)
-						f.write(recv_mesg)
-						recv_len += len(recv_mesg)
-					else:
-						recv_mesg = sockCli.recv(filesize_b - recv_len)
-						recv_len += len(recv_mesg)
-						f.write(recv_mesg)
-						print("File2 transmitted!")
+						print("File transmitted!")
+						f.close()
 		if (data != "Transmit mode!"):
 			sockCli.send(data.encode('utf-8'))
 			time.sleep(0.1)
