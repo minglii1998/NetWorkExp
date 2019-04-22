@@ -43,7 +43,7 @@ while True:
 								data = sockCli.recv(BUFSIZE)
 								if (data.decode('utf-8') == wantStop):
 									break
-								elif (data.decode('utf-8') == 'file1.docx' or data.decode('utf-8') == 'file2.docx' or data.decode('utf-8')):
+								elif (data.decode('utf-8') == 'file1.docx' or data.decode('utf-8') == 'file2.docx' or data.decode('utf-8') == 'big.zip'):
 									filemsg = data.decode('utf-8')
 									filesize_bytes = os.path.getsize(filemsg)
 									file_name = 'new' + data.decode('utf-8')
