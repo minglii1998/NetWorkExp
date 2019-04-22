@@ -22,7 +22,7 @@ while True:
 		data = input(">")
 		if (data == wantStop):
 			break
-		if (data == "file1.docx" or data == "file2.docx"):
+		if (data == "file1.docx" or data == "file2.docx" or data == "big.zip"):
 					fname = data
 					sockCli.sendto(fname.encode('utf-8'),addr)
 					count=0
