@@ -35,7 +35,9 @@ while True:
 				print('Waiting for file!')
 				head_len = struct.unpack('i', head_struct)[0]
 				data = sockCli.recv(head_len)
-				head_dir = json.loads(data)
+				print(data.decode('utf-8'))
+				head_dir = json.loads(data.decode('utf-8'))
+				print('test2')
 				filesize_b = head_dir['filesize_bytes']
 				file_name = head_dir['file_name']
 				data = "Transmit mode!"
