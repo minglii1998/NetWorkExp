@@ -1,16 +1,28 @@
 这个是网络实验的程序
+
 用python实现UDP和TCP的server和Client
+
 文件：
-tcp_client&server：已经符合要求的tcp client&server
+tcp_client&server：已经符合要求的tcp client&server，包含用户名密码验证，多线程，进度条，文件下载
 udp_client&server：基础的udp server&server
-udp_sn&cn：目前完成用户名和密码的验证，传输文件部分还有问题
-理论上完整功能：
-先打开server再打开client
-在client中输入用户名，输入正确进入输入密码环节
+udp_sn&cn：已经符合要求的udp，包含用户名密码验证，多线程（理论上不用多线程），文件下载
+
+完整功能：
+1. 先打开server再打开client
+2. 在client输入需绑定的ip地址
+3. 在client中输入用户名
+输入正确进入输入密码环节
 输入错误则提示用户名错误
-输入密码环节同理
-完成验证后，client可向server发送消息
-或从server下载文件（目前只设计了固定名字file1.docx和file2.docx）
+4. client输入密码
+输入正确进入传输环节
+输入错误则提示密码错误
+5. 完成验证后
+client可向server发送消息，server收到并打印
+或从server下载文件，仅写了固定名称的file1.docx file2.docx big.zip
+6. 输入Quit退出
+ps： 多线程验证
+server打开的情况下，可以同时有至多3个client同时运行，且之间传输文件不互相影响
+
 实验要求：
 1   实验八 Socket网络编程实验
 1.1 实验目的
@@ -44,7 +56,6 @@ udp_sn&cn：目前完成用户名和密码的验证，传输文件部分还有问题
 2) 比较两种协议在代码层面的区别。
 1.8 互动讨论主题
 1) TCP协议和 HTTP协议的区别和联系
-
 
 udp_sn部分的修改：
 原来当客户端给服务器发送file1.docx的请求时，发送部分（elif (data.decode('utf-8') == f1Name):之后以及f2name之前的所有内容）改为：
