@@ -4,6 +4,7 @@ import json
 import os
 import sys
 import time
+from jindutiao import process_bar
  
 HOST=input("请输入Server IP地址：")
 #HOST = "localhost"
@@ -40,8 +41,11 @@ while True:
 				file_name = head_dir['file_name']
 				recv_len = 0
 				recv_mesg = b''
+				old = time.time()
 				f = open(file_name, 'wb')
 				while recv_len < filesize_b:
+                                    percent = recv_len / filesize_b
+                                    process_bar(percent)
 					if filesize_b - recv_len > BUFSIZE:
 						recv_mesg = sockCli.recv(BUFSIZE)
 						f.write(recv_mesg)
@@ -51,6 +55,9 @@ while True:
 						recv_len += len(recv_mesg)
 						f.write(recv_mesg)
 						print("File transmitted!")
+						now = time.time()
+                                                stamp = int(now-old)
+                                                print('总用时%ds' % sramp)
 						f.close()
 		if (data != "Transmit mode!"):
 			sockCli.send(data.encode('utf-8'))
