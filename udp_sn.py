@@ -42,22 +42,21 @@ while True:
 								data, addr = sockSrv.recvfrom(BUFSIZE)
 								if (data.decode('utf-8') == wantStop):
 									break
-								elif (data.decode('utf-8') == f1Name):
-                                                                        count=0
-                                                                        f=open('file1.docx','rb')
-                                                                        while True:
-                                                                            if count == 0:
-                                                                                print ("Are You Ready?")
-                                                                            data = f.read(BUFSIZE)
-                                                                            if str(data)!="b''":
-                                                                                sockSrv.sendto(data,addr)
-                                                                            else:
-                                                                                sockSrv.sendto('end'.encode('utf-8'),addr) #此处文件结束
-                                                                                break
-
-                                                                            #data,addr = sockSrv.recvfrom(BUFSIZE)
-                                                                            count+=1
-                                                                            print('Sended Successfully!')
+								elif (data.decode('utf-8') == 'file1.docx' or data.decode('utf-8') == 'file2.docx'):
+									fname = data.decode('utf-8')
+									count=0
+									f=open(fname,'rb')
+									while True:
+										if count == 0:
+											print ("Are You Ready?")
+										data = f.read(BUFSIZE)
+										if str(data)!="b''":
+											sockSrv.sendto(data,addr)
+										else:
+											sockSrv.sendto('end'.encode('utf-8'),addr) #此处文件结束
+											break
+										count+=1
+										print('Sended Successfully!')
 								elif (data.decode('utf-8') == f2Name):
 									filemsg = f2Name
 									filesize_bytes = os.path.getsize(filemsg)
