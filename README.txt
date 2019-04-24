@@ -4,6 +4,7 @@
 
 文件：
 tcp_client&server：已经符合要求的tcp client&server，包含用户名密码验证，多线程，进度条，文件下载
+ps：tcp_server_thread为多线程版本
 udp_client&server：基础的udp server&server
 udp_sn&cn：已经符合要求的udp，包含用户名密码验证，多线程（理论上不用多线程），文件下载
 
